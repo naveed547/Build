@@ -1,49 +1,57 @@
 import { Component, OnInit } from '@angular/core';
 import { Router }            from '@angular/router';
-import { Observable }        from 'rxjs/Observable';
-import { Subject }           from 'rxjs/Subject';
 
-import { HeroSearchService } from './hero-search.service';
-import { Hero } from './hero';
+import { Hero }                from './hero';
+import { HeroService }         from './hero.service';
 
 @Component({
   moduleId: module.id,
-  selector: 'hero-search',
+  selector: 'my-heroes',
   templateUrl: 'heroes.component.html',
-  styleUrls: [ 'heroes.component.css' ],
-  providers: [HeroSearchService]
+  styleUrls: [ 'heroes.component.css' ]
 })
 export class HeroesComponent implements OnInit {
-  heroes: Observable<Hero[]>;
-  private searchTerms = new Subject<string>();
+  heroes: Hero[];
+  selectedHero: Hero;
 
   constructor(
-    private heroSearchService: HeroSearchService,
-    private router: Router) {}
+    private heroService: HeroService,
+    private router: Router) { }
 
-  // Push a search term into the observable stream.
-  search(term: string): void {
-    this.searchTerms.next(term);
+  getHeroes(): void {
+    this.heroService
+        .getHeroes()
+        .then(heroes => this.heroes = heroes);
   }
 
-  ngOnInit(): void {
-    this.heroes = this.searchTerms
-      .debounceTime(300)        // wait for 300ms pause in events
-      .distinctUntilChanged()   // ignore if next search term is same as previous
-      .switchMap(term => term   // switch to new observable each time
-        // return the http search observable
-        ? this.heroSearchService.search(term)
-        // or the observable of empty heroes if no search term
-        : Observable.of<Hero[]>([]))
-      .catch(error => {
-        // TODO: real error handling
-        console.log(error);
-        return Observable.of<Hero[]>([]);
+  add(name: string): void {
+    name = name.trim();
+    if (!name) { return; }
+    this.heroService.create(name)
+      .then(hero => {
+        this.heroes.push(hero);
+        this.selectedHero = null;
       });
   }
 
-  gotoDetail(hero: Hero): void {
-    let link = ['/detail', hero.id];
-    this.router.navigate(link);
+  delete(hero: Hero): void {
+    this.heroService
+        .delete(hero.id)
+        .then(() => {
+          this.heroes = this.heroes.filter(h => h !== hero);
+          if (this.selectedHero === hero) { this.selectedHero = null; }
+        });
+  }
+
+  ngOnInit(): void {
+    this.getHeroes();
+  }
+
+  onSelect(hero: Hero): void {
+    this.selectedHero = hero;
+  }
+
+  gotoDetail(): void {
+    this.router.navigate(['/detail', this.selectedHero.id]);
   }
 }
