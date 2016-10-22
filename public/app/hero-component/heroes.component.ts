@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Router }            from '@angular/router';
+import { Router,ActivatedRoute }            from '@angular/router';
 
-import { Hero }                from './hero';
-import { HeroService }         from './hero.service';
+import { Hero }                from 'public/app/hero';
+import { HeroService }         from 'public/app/hero.service';
 
 @Component({
   moduleId: module.id,
@@ -16,7 +16,8 @@ export class HeroesComponent implements OnInit {
 
   constructor(
     private heroService: HeroService,
-    private router: Router) { }
+    private router: Router,
+	private router2: ActivatedRoute) { }
 
   getHeroes(): void {
     this.heroService
@@ -44,7 +45,8 @@ export class HeroesComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getHeroes();
+    //this.getHeroes();
+	this.heroes = this.router2.snapshot.data['heroData']
   }
 
   onSelect(hero: Hero): void {

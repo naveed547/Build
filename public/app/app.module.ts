@@ -6,23 +6,20 @@ import { FormsModule }   from '@angular/forms';
 import { HttpModule }    from '@angular/http';
 import { RouterModule }  from '@angular/router';
 
-// Imports for loading & configuring the in-memory web api
-//import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
-//import { InMemoryDataService }  from './in-memory-data.service';
-
 import { AppComponent }         from './app.component';
-import { DashboardComponent }   from './dashboard.component';
-import { HeroesComponent }      from './heroes.component';
-import { HeroDetailComponent }  from './hero-detail.component';
+import { DashboardComponent }   from './hero-dashboard/dashboard.component';
+import { HeroesComponent }      from './hero-component/heroes.component';
+import { HeroDetailComponent }  from './hero-details/hero-detail.component';
 import { HeroService }          from './hero.service';
-import { HeroSearchComponent }  from './hero-search.component';
+import { HeroSearchComponent }  from './hero-search/hero-search.component';
+import { DashboardResolve } from './dashboard.resolve';
+import { DetailResolve } from './detail.resolve';
 
 @NgModule({
   imports: [
     BrowserModule,
     FormsModule,
     HttpModule,
-    //InMemoryWebApiModule.forRoot(InMemoryDataService),
     RouterModule.forRoot([
       {
         path: '',
@@ -31,15 +28,24 @@ import { HeroSearchComponent }  from './hero-search.component';
       },
       {
         path: 'dashboard',
-        component: DashboardComponent
+        component: DashboardComponent,
+		resolve: {
+		  heroData: DashboardResolve
+		}
       },
       {
         path: 'detail/:id',
-        component: HeroDetailComponent
+        component: HeroDetailComponent,
+		resolve: {
+		  detailData: DetailResolve
+		}
       },
       {
         path: 'heroes',
-        component: HeroesComponent
+        component: HeroesComponent,
+		resolve: {
+		  heroData: DashboardResolve
+		}
       }
     ])
   ],
@@ -51,7 +57,7 @@ import { HeroSearchComponent }  from './hero-search.component';
     HeroSearchComponent
   ],
   providers: [
-    HeroService,
+    HeroService,DashboardResolve,DetailResolve
   ],
   bootstrap: [ AppComponent ]
 })

@@ -2,8 +2,8 @@ import { Component, OnInit }      from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { Location }               from '@angular/common';
 
-import { Hero }        from './hero';
-import { HeroService } from './hero.service';
+import { Hero }        from 'public/app/hero';
+import { HeroService } from 'public/app/hero.service';
 
 @Component({
   moduleId: module.id,
@@ -21,11 +21,12 @@ export class HeroDetailComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.route.params.forEach((params: Params) => {
+    /*this.route.params.forEach((params: Params) => {
       let id = params['id'];
       this.heroService.getHero(id)
         .then(hero => this.hero = hero);
-    });
+    });*/
+	this.hero = this.route.snapshot.data['detailData']
   }
 
   save(): void {

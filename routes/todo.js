@@ -3,12 +3,12 @@ var router = express.Router();
 var mongojs = require('mongojs');
 var db = mongojs('mongodb://nvd:nvd@ds048719.mlab.com:48719/firstdb', ['TourHeroes']);
 
-
-/* GET All Todos */
+/* GET All Todos or matching query*/
 router.get('/todos', function(req, res, next) {
 	var qu=req.query;
 	if(qu && qu.name) {
-		db.TourHeroes.find(qu,function(err, docs) {
+		console.log(qu)
+		db.TourHeroes.find({"name": new RegExp('^' + qu.name, 'i')},function(err, docs) {
 			if (err) {
 				res.send(err);
 			} else {
@@ -42,13 +42,15 @@ router.get('/todo/:id', function(req, res, next) {
 /* POST/SAVE a Todo */
 router.post('/todo', function(req, res, next) {
     var todo = req.body;
-        db.TourHeroes.insert({id:20,name:todo.name}, function(err, result) {
-            if (err) {
-                res.send(err);
-            } else {
-                res.json(result);
-            }
-        })
+	db.TourHeroes.find(function(err,docs){
+		db.TourHeroes.insert({id:docs[docs.length-1].id+1,name:todo.name}, function(err, result) {
+			if (err) {
+				res.send(err);
+			} else {
+				res.json(result);
+			}
+		})
+	});
 });
 
 /* PUT/UPDATE a Todo */

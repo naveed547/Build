@@ -17,7 +17,8 @@ module.exports = function(grunt) {
             }
         }
     },
-	connect: {
+	//Need to find a way to pick up server.js file and automate the server start.
+	/*connect: {
 		server: {
 			options: {
 				port: 3000,
@@ -27,9 +28,9 @@ module.exports = function(grunt) {
 	},
 	open: {
 		dev: {
-			path: 'http://localhost:3000/index.html'
+			path: 'http://localhost:3000/'
 		}
-	},
+	},*/
 	ts: {
 		build: {
 			src: ['public/app/*.ts'],
@@ -81,12 +82,14 @@ module.exports = function(grunt) {
 		tasks: ['concat']
 	  },
 	  ts: {
-		files: 'public/app/*.ts',
+		files: 'public/app/**/*.ts',
 		tasks: ['ts']  
 	  }
     }
   });
  // grunt.registerTask('test', ['dev_prod_switch']);
   //grunt.registerTask('default', ['less','concat', 'watch']);
-  grunt.registerTask('default', ['ts:build','connect', 'open', 'watch']);
+  //grunt.registerTask('default', ['less','concat', 'watch']);
+  //grunt.registerTask('default', ['ts:build','connect', 'open', 'watch']);
+  grunt.registerTask('default', ['ts:build','watch']);
 };

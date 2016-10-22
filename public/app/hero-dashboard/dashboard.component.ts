@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Router }            from '@angular/router';
+import { Router,ActivatedRoute }            from '@angular/router';
 
-import { Hero }        from './hero';
-import { HeroService } from './hero.service';
+import { Hero }        from 'public/app/hero';
+import { HeroService } from 'public/app/hero.service';
 
 @Component({
   moduleId: module.id,
@@ -15,12 +15,15 @@ export class DashboardComponent implements OnInit {
 
   constructor(
     private router: Router,
+	private router2: ActivatedRoute,
     private heroService: HeroService) {
   }
 
   ngOnInit(): void {
-    this.heroService.getHeroes()
-      .then(heroes => this.heroes = heroes.slice(1, 5));
+	this.heroes = this.router2.snapshot.data['heroData'].slice(1, 5)
+    //this.heroService.getHeroes()
+      //.then(heroes => this.heroes = heroes.slice(1, 5));
+	  //console.log(this.router2.snapshot.data['heroData'])
   }
 
   gotoDetail(hero: Hero): void {
