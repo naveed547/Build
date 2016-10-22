@@ -20,20 +20,20 @@ module.exports = function(grunt) {
 	connect: {
 		server: {
 			options: {
-				port: 8080,
+				port: 3000,
 				base: './'
 			}
 		}
 	},
 	open: {
 		dev: {
-			path: 'http://localhost:8080/index.html'
+			path: 'http://localhost:3000/index.html'
 		}
 	},
 	ts: {
 		build: {
-			src: ['app/*.ts'],
-			dest: 'app',
+			src: ['public/app/*.ts'],
+			dest: 'public/app',
 			options: {
 				"target": "es5",
 				"module": "commonjs",
@@ -52,8 +52,8 @@ module.exports = function(grunt) {
 		  separator: ';',
 		},
 		dist: {
-		  src: ['src/script.js','src/app.js'],
-		  dest: 'dist/concat.js',
+		  src: ['public/src/script.js','public/src/app.js'],
+		  dest: 'public/dist/concat.js',
 		},
 	},
     less: {
@@ -64,24 +64,24 @@ module.exports = function(grunt) {
           optimization: 2
         },
         files: {
-          "css/main.css": "less/main.less" // destination file and source file
+          "public/css/main.css": "public/less/main.less" // destination file and source file
         }
       }
     },
     watch: {
       styles: {
-        files: ['less/**/*.less'], // which files to watch
+        files: ['public/less/**/*.less'], // which files to watch
         tasks: ['less'],
         options: {
           nospawn: true
         }
       },
 	  concat: {
-		files: ['src/script.js','src/app.js'],
+		files: ['public/src/script.js','public/src/app.js'],
 		tasks: ['concat']
 	  },
 	  ts: {
-		files: 'app/*.ts',
+		files: 'public/app/*.ts',
 		tasks: ['ts']  
 	  }
     }

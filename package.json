@@ -10,8 +10,16 @@
     "tsc:w": "tsc -w",
     "typings": "typings"
   },
-  "author": "naveed",
-  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/naveed547/Build"
+  },
+  "author": "Sashank",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/naveed547/Build/issues"
+  },
+  "homepage": "https://github.com/naveed547/Build#readme",
   "dependencies": {
     "@angular/common": "~2.0.1",
     "@angular/compiler": "~2.0.1",
@@ -23,8 +31,16 @@
     "@angular/router": "~3.0.1",
     "@angular/upgrade": "~2.0.1",
     "angular-in-memory-web-api": "~0.1.1",
+    "body-parser": "^1.15.2",
     "bootstrap": "^3.3.7",
+    "cookie-parser": "^1.4.3",
     "core-js": "^2.4.1",
+    "ejs": "^2.5.2",
+    "express": "^4.14.0",
+    "mongojs": "^0.18.2",
+    "mongoose": "4.1.9",
+    "morgan": "^1.7.0",
+    "path": "^0.11.14",
     "reflect-metadata": "^0.1.8",
     "rxjs": "5.0.0-beta.12",
     "systemjs": "0.19.39",
