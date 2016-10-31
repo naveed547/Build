@@ -31,6 +31,16 @@ module.exports = function(grunt) {
 			path: 'http://localhost:3000/'
 		}
 	},*/
+	copy: {
+		js: {
+			files: [
+				{ src: 'node_modules/core-js/client/shim.min.js', dest: 'public/lib/shim.min.js' },
+				{ src: 'node_modules/zone.js/dist/zone.js', dest: 'public/lib/zone.js' },
+				{ src: 'node_modules/reflect-metadata/Reflect.js', dest: 'public/lib/Reflect.js' },
+				{ src: 'node_modules/systemjs/dist/system.src.js', dest: 'public/lib/system.src.js' }
+			]
+		}
+	},
 	ts: {
 		build: {
 			src: ['public/app/*.ts'],
@@ -50,10 +60,10 @@ module.exports = function(grunt) {
 	},
 	concat: {
 		options: {
-		  separator: ';',
+		  separator: ';\n',
 		},
 		dist: {
-		  src: ['public/src/script.js','public/src/app.js'],
+		  src: ['public/lib/*.js'],
 		  dest: 'public/dist/concat.js',
 		},
 	},
@@ -91,5 +101,5 @@ module.exports = function(grunt) {
   //grunt.registerTask('default', ['less','concat', 'watch']);
   //grunt.registerTask('default', ['less','concat', 'watch']);
   //grunt.registerTask('default', ['ts:build','connect', 'open', 'watch']);
-  grunt.registerTask('default', ['ts:build','watch']);
+  grunt.registerTask('default', ['copy:js','concat','ts:build','watch']);
 };
